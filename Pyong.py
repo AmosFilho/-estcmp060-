@@ -4,12 +4,13 @@ from math import radians, cos, sin
 import platform
 import os
 
-system = platform.system()
+# Getting OS name
+SYSTEM = platform.system()
 
+# Setting audio configs
 audio_bounce = ""
 audio_score = ""
 
-# Setting the audios configs
 if system == "Windows":
     import winsound
 
@@ -87,6 +88,9 @@ def change_ball_angle(direction_x=1, direction_y=1):
 # Score
 score_1 = 0
 score_2 = 0
+
+# Maximum score
+MAX_SCORE = 5
 
 # Head-up display
 hud = turtle.Turtle()
@@ -204,3 +208,22 @@ while True:
             ball.dx = -1
 
         play_audio(audio_bounce)
+        
+    # Checks victory condition
+    if score_1 == MAX_SCORE or score_2 == MAX_SCORE:
+        victory = turtle.Turtle()
+        victory.color("white")
+        victory.penup()
+        hud.hideturtle()
+        victory.goto(0, 0)
+
+        if score_1 > score_2:
+            winner = 'Player 1'
+        else:
+            winner = 'Player 2'
+
+        victory.write("Victory {}".format(winner), align="center",
+                      font=("Press Start 2P", 24, "normal"))
+
+        screen.listen()
+        screen.exitonclick()
